@@ -5,11 +5,15 @@ dotenv.config();
 const api = process.env.DATABASE_URL;
 const mongoClient = new MongoClient(api);
 
-try {
+const connectDB = async () => {
+  try {
     await mongoClient.connect();
-    console.log("MongoDB conected");
-} catch (err) {
+    console.log("MongoDB connected");
+    return mongoClient.db();
+  } catch (err) {
     console.log(err);
-}
+    throw err;
+  }
+};
 
-export const db = mongoClient.db();
+export const db = await connectDB();

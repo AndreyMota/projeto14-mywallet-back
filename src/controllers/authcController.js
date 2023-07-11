@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import {v4 as uuid} from 'uuid';
 
 export async function signUp(req, res) {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
   
   const existingUser = await db.collection('users').findOne({ email: email });
 
@@ -12,7 +12,7 @@ export async function signUp(req, res) {
     return;
   } else {
     const senhaCrip = bcrypt.hashSync(password, 4);
-    db.collection('users').insertOne({ email: email, password: senhaCrip });
+    db.collection('users').insertOne({ name: name, email: email, password: senhaCrip, ops: [], saldo: 0 });
     res.status(201).send('success');
   }
 }
